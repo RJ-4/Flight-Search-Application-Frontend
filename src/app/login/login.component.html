@@ -1,0 +1,23 @@
+<h1 class = "text-light bg-secondary py-4 text-center">Flight Search</h1>
+<div class = "container m-auto w-50 pt-2 pb-4 text-center">
+  <h2 class = "text-success py-4 text-center">Login</h2>
+
+  <form (ngSubmit)="onLogin()" #form="ngForm">
+    
+    <span *ngIf="isLoginSuccessful === false" class="text-danger d-block help-block my-2">
+      Invalid username/password
+    </span>
+
+    <div class = "form-group">
+        <input type="text" class="form-control m-4 form-control-lg" ngModel id="username" name="username" placeholder="Username" required>
+    </div>
+    
+    <div class="form-group">
+      <input type="password" ngModel class="form-control m-4 form-control-lg" id="password" name="password" placeholder="Password" required>
+    </div>
+
+    <button [disabled]="!form.valid" class="btn btn-success m-4 btn-lg ml-auto mr-auto d-block" type="submit">Login
+    </button>
+  </form>
+  <a routerLink="/sign-up">Not registered? Sign up</a>					
+</div>

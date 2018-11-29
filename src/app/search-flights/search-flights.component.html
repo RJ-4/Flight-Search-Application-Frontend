@@ -1,0 +1,122 @@
+<h1 class = "text-light bg-secondary py-4 text-center">Flight Search</h1>
+<a routerLink="/" class="pb-2 mr-4" style="float:right">logout</a>
+
+<div *ngIf="isCurrencyCodeError" class="alert alert-danger" role="alert">
+  <p class="text-danger font-weight-bold text-center">
+    Currency Code not specified in header!!!
+  </p>
+</div>
+
+<div class = "container py-5 text-center text-light">
+
+  <div class="row">
+    <div class="col-lg-5 col-md-7 col-sm-8">
+      <div class="card bg-info card-form">
+        <div class="card-body">
+          <h3 class = "py-4">Search Flights</h3>
+          <form (ngSubmit)="onSearch()" #form="ngForm">
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <input type="text" ngModel class="form-control" 
+                        placeholder="Departure Location" id="departureLocation"
+                        name="departureLocation" required>	
+                </div>								
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <input type="text" class="form-control" 
+                        placeholder="Arrival Location" id="arrivalLocation" 
+                        ngModel name="arrivalLocation" required>
+                </div>
+              </div>
+            </div>		
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <input type="date" class="form-control" 
+                      placeholder="Departure Date (dd-mm-yyyy)"
+                      name="departureDate" [(ngModel)]="departureDate" required >	
+                </div>								
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group custom-radio">
+                  <input type="radio" id="Economy" name="customRadio" class="custom-control-input" checked="checked">
+                  <label class="custom-control-label text-blue" for="Economy">Economy</label>
+                </div>								
+              </div>
+              <div class="col">
+                <div class="form-group custom-radio">
+                  <input type="radio" id="Business" name="customRadio" class="custom-control-input">
+                  <label class="custom-control-label text-blue" for="Business">Business</label>
+                </div>									
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <select name="outputPreference" id="outputPreference" [(ngModel)]="outputPreference" class="form-control">	
+                    <option value="Sort by Fare" selected>Sort by Fare</option>
+                    <option value="Sort by Fare and Duration"> 
+                            Sort by Fare and Duration</option>
+                  </select>
+                </div>								
+              </div>
+            </div>
+            <div class="form-group mt-4">
+              <button type="submit" [disabled]="!form.valid" class="btn btn-outline-light btn-lg" value="Search">Search</button>
+            </div>						
+          </form>
+        </div>					
+      </div>
+    </div>
+    
+    <div class="col-lg-7 col-md-5 col-sm-4">
+      <img src="https://static.tacdn.com/img2/flights/airlines/hero_images/_GenericHero_1168x606.jpg"
+          class="rounded-circle img-fluid">
+    </div>
+  </div>
+</div>
+<hr style="border-bottom: 1px solid black">
+
+<div *ngIf="(isFlightsFound === true) && (areFlightsLoaded | async)">
+  <div class="container bg-light py-4">
+    <h3 class="text-center text-info pb-2">Result</h3>
+    
+    <div modelAttribute="filteredFlights">
+      <table class="table table-responsive">
+        <thead class="thead-dark text-light">
+          <tr>
+            <th>Flight No.</th>
+            <th>Departure Location</th>
+            <th>Arrival Location</th>
+            <th>Valid Till</th>
+            <th>Flight Time</th>
+            <th>Flight Duration</th>
+            <th>Fare</th>
+            <th>Seat Availability</th>
+            <th>Class</th>
+          </tr>
+        </thead>
+        <tbody class="bg-light text-dark text-center">
+          <tr *ngFor="let flight of filteredFlights | paginate: { itemsPerPage: 5, currentPage: currentPageNo }">
+            <td>{{ flight.flightNumber }}</td>
+            <td>{{ flight.departureLocation }}</td>
+            <td>{{ flight.arrivalLocation }}</td>
+            <td>{{ flight.validTill | date }}</td>
+            <td>{{ flight.flightTime }}</td>
+            <td>{{ flight.flightDuration }}</td>
+            <td>{{ flight.fare }}</td>
+            <td>{{ flight.seatAvailability }}</td>
+            <td>{{ flight.flightClass }}</td>
+          </tr>
+        </tbody>
+        <br>
+        <pagination-controls class="text-center" (pageChange) = "currentPageNo=$event"></pagination-controls>
+      </table>
+    
+    </div>
+  </div>			
+</div>
