@@ -1,5 +1,5 @@
 <h1 class = "text-light bg-secondary py-4 text-center">Flight Search</h1>
-<a routerLink="/" class="pb-2 mr-4" style="float:right">logout</a>
+<a routerLink="" (click)="onLogout()" class="pb-2 mr-4" style="float:right">logout</a>
 
 <div *ngIf="isCurrencyCodeError" class="alert alert-danger" role="alert">
   <p class="text-danger font-weight-bold text-center">

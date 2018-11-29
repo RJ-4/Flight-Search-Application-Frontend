@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SearchFlightsService } from '../services/search-flights.service';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-flights',
@@ -9,7 +10,9 @@ import { NgForm } from '@angular/forms';
 })
 export class SearchFlightsComponent implements OnInit {
 
-  constructor(private searchFlightsService: SearchFlightsService) { }
+  constructor(private searchFlightsService: SearchFlightsService, 
+              private router: Router) { }
+
   outputPreference = "Sort by Fare";
   isFlightsFound = false;
   areFlightsLoaded: Promise<boolean>;
@@ -52,6 +55,11 @@ export class SearchFlightsComponent implements OnInit {
                              (error) => {
                               this.isCurrencyCodeError = true;
                              });
+  }
+
+  onLogout() {
+    window.localStorage.removeItem('Currency-Code');
+    this.router.navigate(['/']);
   }
 
 }
